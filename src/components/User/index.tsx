@@ -13,7 +13,30 @@ function UserComponent({
     address 
     }:  Omit<UserTypes, 'birthdate'> ){
 
-    const {selectedUser, setSelectedUser} = useContext(UserContext);
+    const { selectedUser, 
+            setSelectedUser,
+            deleteUser,
+            setFormName,
+            setFormEmail,
+            setFormPhone,
+            setFormCountry,
+            setFormState,
+            setFormStreet,
+            setFormNumber,
+            setFormAvatar,
+            setIsOpenModal } = useContext(UserContext);
+
+    function updateUserModal(){
+        setFormName( name );
+        setFormEmail( email );
+        setFormPhone( phone) ;
+        setFormCountry( address.country ) ;
+        setFormState( address.state );
+        setFormStreet( address.street );
+        setFormNumber(`${address.number}`) ;
+        setFormAvatar(image)
+        setIsOpenModal(true);
+    }
 
     return (
         <li className={selectedUser === id ? 'isActive' : ''}
@@ -25,6 +48,12 @@ function UserComponent({
                     <span>{email}</span>
                     <span>{phone}</span>
                 </div>
+                {selectedUser === id && (
+                    <div className="buttons">
+                        <button type="button" onClick={updateUserModal}>Editar</button>
+                        <button type="button" onClick={deleteUser}>Delete</button>
+                    </div>
+                )}
             </section>
             <aside className='address'>
                 <div>

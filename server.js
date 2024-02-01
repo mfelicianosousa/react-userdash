@@ -1,4 +1,4 @@
-const { faker } = require('@faker-js/faker');
+const { fakerPT_BR: faker } = require('@faker-js/faker');
 
 module.exports = () =>{
     const data = {
@@ -15,9 +15,9 @@ module.exports = () =>{
               phone: faker.phone.number(),
               image: faker.image.avatar(),
               address: {
-                country: faker.location.country(),
+                country: 'Brasil', //fakerPT_BR.location.country(),
                 state: faker.location.state(),
-                strate: faker.location.streetAddress(),
+                strate: faker.location.street(),
                 number: Math.floor(Math.random() * 100)
               }
             }

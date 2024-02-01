@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useState } from "react";
 import { UserModal } from "../components/UserModel";
 import { User } from "../types/user";
+import { api } from "../services/fakeapi";
 
 type UserContextProps = {
     children: ReactNode;
@@ -14,6 +15,9 @@ type UserContextType = {
     users: User[];
     setUsers: (newState: User[])=> void;
     filterUsers: (filter: string) => void;
+    createUser: () => void;
+    updateUser: () => void;
+    deleteUser: () => void;
     setFormName: (newState: string) => void;
     formName: string;
     formEmail: string;
@@ -41,6 +45,9 @@ const initialValue = {
     users:[],
     setUsers: () => {},
     filterUsers: () => {},
+    createUser: () => {},
+    updateUser: () => {},
+    deleteUser: () => {},
     formName: '',
     setFormName: () => {},
     formEmail: '',
@@ -81,12 +88,56 @@ export const UserContextProvider = ({ children }: UserContextProps) =>{
     
     }
 
+    const createUser = async () => {
+        const data = {
+            id : Math.floor(Math.random()),
+            name : formName,
+            email: formEmail,
+            phone: formPhone,
+            image: formAvatar,
+            address: {
+                country: formCountry,
+                state: formState,
+                street: formStreet,
+                number: formNumber,
+            }
+
+        };
+        await api.post('/users',data)
+    }
+
+    const updateUser = async () => {
+        const data = {
+            id : selectedUser,
+            name : formName,
+            email: formEmail,
+            phone: formPhone,
+            image: formAvatar,
+            address: {
+                country: formCountry,
+                state: formState,
+                street: formStreet,
+                number: formNumber,
+            }
+
+        };
+        await api.put(`/users/${selectedUser}`,data)
+    }
+
+    const deleteUser = async () => {
+        await api.delete(`/users/${selectedUser}`);
+        window.location.reload();
+    }
+
     return (
         <UserContext.Provider 
             value={{ isOpenModal, setIsOpenModal, 
                      selectedUser, setSelectedUser,
                      users, setUsers, 
                      filterUsers,
+                     createUser,
+                     updateUser, 
+                     deleteUser, 
                      formName, 
                      setFormName,
                      formEmail, 
