@@ -21,8 +21,9 @@ li {
     img {
         width: 67px;
         height: 67px;
-        border-radius: 50%
+        border-radius: 50%;
     }
+
     div {
         display: flex;
         flex-direction: column;
@@ -38,6 +39,19 @@ li {
             color: var(--gray-100);
             font-weight: 300;
             font-size: 14px;
+        }
+
+        &.buttons {
+            gap: 10px;
+      
+            button {
+              background-color: var(--blue-500);
+              border: none;
+              color: white;
+              border-radius: 5px;
+      
+              cursor: pointer;
+            }
         }
     }
 }

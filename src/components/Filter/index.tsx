@@ -1,12 +1,11 @@
 import { FormEvent, useContext, useState} from 'react';
-import './styles.scss'
 import { UserContext } from '../../contexts/UserContext';
+import './styles.scss'
 
 export function Filter(){
 
     const [filter, setFilter] = useState('');
-    const {filterUsers} = useContext( UserContext) ;
-
+    const {filterUsers, setIsOpenModal} = useContext( UserContext) ;
 
     async function handleSubmit (e: FormEvent ) {
     
@@ -14,7 +13,11 @@ export function Filter(){
 
         filterUsers(filter);
    
-      }
+    }
+
+    function handleCreate(){
+      setIsOpenModal(true);
+    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -24,6 +27,7 @@ export function Filter(){
             onChange={(e) => setFilter(e.target.value)} />
         &nbsp;
         <button type="submit">Filtrar</button>
+        <button type="button" onClick={handleCreate}>Criar</button>
       </form>
     )
 }

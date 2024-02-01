@@ -10,13 +10,12 @@ function App() {
   return (
     <div>
       <Header />
-      <UserContextProvider>
-        <main>
-          <Filter />     
-          <Users />
-        </main>
-      </UserContextProvider>
-     
+      <main>
+        <UserContextProvider>
+            <Filter />     
+            <Users />
+        </UserContextProvider>
+      </main>
     </div>
   );
 }
