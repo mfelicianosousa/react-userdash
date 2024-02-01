@@ -8,14 +8,6 @@ export function Filter(){
     const {
       filterUsers,
       setIsOpenModal,
-      setFormName,
-      setFormEmail,
-      setFormPhone,
-      setFormCountry,
-      setFormState,
-      setFormStreet,
-      setFormNumber,
-      setFormAvatar,
       setSelectedUser,
      } = useContext( UserContext) ;
 
@@ -28,14 +20,7 @@ export function Filter(){
     }
 
     function handleCreate(){
-      setFormName('');
-      setFormEmail('');
-      setFormPhone('');
-      setFormCountry('');
-      setFormState('');
-      setFormStreet('');
-      setFormNumber('');
-      setFormAvatar('');
+      
       setSelectedUser(-1);
       setIsOpenModal(true);
     }

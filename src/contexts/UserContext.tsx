@@ -2,6 +2,7 @@ import { ReactNode, createContext, useState } from "react";
 import { UserModal } from "../components/UserModel";
 import { User } from "../types/user";
 import { api } from "../services/fakeapi";
+import { UserFormData } from './../types/user.d';
 
 type UserContextProps = {
     children: ReactNode;
@@ -13,73 +14,23 @@ type UserContextType = {
     selectedUser: number;
     setSelectedUser: (newState: number) => void;
     users: User[];
-    setUsers: (newState: User[])=> void;
-    filterUsers: (filter: string) => void;
-    createUser: () => void;
-    updateUser: () => void;
+    setUsers: ( newState: User[] )=> void;
+    setUserFormDefaultValues:(newState: UserFormData) => void;
+    filterUsers: ( filter: string ) => void;
+    createUser: ( data: UserFormData ) => void;
+    updateUser: ( data: UserFormData ) => void;
     deleteUser: () => void;
-    setFormName: (newState: string) => void;
-    formName: string;
-    formEmail: string;
-    setFormEmail: (newState: string) => void;
-    formPhone: string;
-    setFormPhone: (newState: string) => void;
-    formCountry: string;
-    setFormCountry: (newState: string) => void;
-    formState: string;
-    setFormState: (newState: string) => void;
-    formStreet: string;
-    setFormStreet: (newState: string) => void;
-    formNumber: string;
-    setFormNumber: (newState: string) => void;
-    formAvatar: string;
-    setFormAvatar: (newState: string) => void;
-
 }
 
-const initialValue = {
-    isOpenModal: false,
-    setIsOpenModal:() => {},
-    selectedUser: -1,
-    setSelectedUser: () => {}, 
-    users:[],
-    setUsers: () => {},
-    filterUsers: () => {},
-    createUser: () => {},
-    updateUser: () => {},
-    deleteUser: () => {},
-    formName: '',
-    setFormName: () => {},
-    formEmail: '',
-    setFormEmail: () => {},
-    formPhone: '',
-    setFormPhone: () => {},
-    formCountry: '',
-    setFormCountry: () => {},
-    formState: '',
-    setFormState: () => {},
-    formStreet: '',
-    setFormStreet: () => {},
-    formNumber: '',
-    setFormNumber: () => {},
-    formAvatar: '',
-    setFormAvatar: () => {},
-}
-export const UserContext = createContext<UserContextType>( initialValue );
+export const UserContext = createContext<UserContextType>( {} as UserContextType );
 
 export const UserContextProvider = ({ children }: UserContextProps) =>{
    
-    const [isOpenModal, setIsOpenModal] = useState(initialValue.isOpenModal);
-    const [selectedUser, setSelectedUser] = useState(initialValue.selectedUser)
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(-1)
     const [users, setUsers] = useState<User[]>([]); 
-    const [formName, setFormName] = useState(initialValue.formName);
-    const [formEmail, setFormEmail] = useState(initialValue.formEmail);
-    const [formPhone, setFormPhone] = useState(initialValue.formPhone);
-    const [formCountry, setFormCountry] = useState(initialValue.formCountry);
-    const [formState, setFormState] = useState(initialValue.formState);
-    const [formStreet, setFormStreet] = useState(initialValue.formStreet);
-    const [formNumber, setFormNumber] = useState(initialValue.formNumber);
-    const [formAvatar, setFormAvatar] = useState(initialValue.formAvatar);
+    const [userFormDefaultValues, setUserFormDefaultValues] = useState<UserFormData>({});
+    
 
     const filterUsers = async (filter: string ) => {
         const response = await fetch(`http://localhost:3333/users?q=${filter}`);
@@ -88,40 +39,40 @@ export const UserContextProvider = ({ children }: UserContextProps) =>{
     
     }
 
-    const createUser = async () => {
-        const data = {
+    const createUser = async ( data: UserFormData ) => {
+        const user = {
             id : Math.floor(Math.random()),
-            name : formName,
-            email: formEmail,
-            phone: formPhone,
-            image: formAvatar,
+            name : data.name,
+            email: data.email,
+            phone: data.phone,
+            image: data.avatar,
             address: {
-                country: formCountry,
-                state: formState,
-                street: formStreet,
-                number: formNumber,
+                country: data.country,
+                state: data.state,
+                street: data.street,
+                number: data.number,
             }
 
         };
-        await api.post('/users',data)
+        await api.post('/users',user)
     }
 
-    const updateUser = async () => {
-        const data = {
+    const updateUser = async ( data: UserFormData ) => {
+        const user = {
             id : selectedUser,
-            name : formName,
-            email: formEmail,
-            phone: formPhone,
-            image: formAvatar,
+            name : data.name,
+            email: data.email,
+            phone: data.phone,
+            image: data.avatar,
             address: {
-                country: formCountry,
-                state: formState,
-                street: formStreet,
-                number: formNumber,
+                country: data.country,
+                state: data.state,
+                street: data.street,
+                number: data.number,
             }
 
         };
-        await api.put(`/users/${selectedUser}`,data)
+        await api.put(`/users/${selectedUser}`, user)
     }
 
     const deleteUser = async () => {
@@ -138,26 +89,10 @@ export const UserContextProvider = ({ children }: UserContextProps) =>{
                      createUser,
                      updateUser, 
                      deleteUser, 
-                     formName, 
-                     setFormName,
-                     formEmail, 
-                     setFormEmail,
-                     formPhone, 
-                     setFormPhone,
-                     formCountry, 
-                     setFormCountry,
-                     formState, 
-                     setFormState,
-                     formStreet, 
-                     setFormStreet,
-                     formNumber, 
-                     setFormNumber,
-                     formAvatar, 
-                     setFormAvatar
-
+                     setUserFormDefaultValues
                      }}>
 
-            {isOpenModal && <UserModal />}
+            {isOpenModal && <UserModal initialValues={userFormDefaultValues}/>}
             {children} 
         </UserContext.Provider>
     )

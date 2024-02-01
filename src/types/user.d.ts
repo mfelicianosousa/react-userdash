@@ -15,3 +15,16 @@ export interface User {
     image: string;
     address: Address;
 }
+
+export interface UserFormData{
+    id?: number;
+    name?: string;
+    email?: string;
+    phone?: string;
+    birthdate?: string;
+    country?: string;
+    state?: string;
+    street?: string;
+    number?: ztring;
+    avatar?: string;
+}
