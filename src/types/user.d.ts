@@ -16,15 +16,16 @@ export interface User {
     address: Address;
 }
 
-export interface UserFormData{
+export interface UserFormData {
     id?: number;
     name?: string;
     email?: string;
-    phone?: string;
     birthdate?: string;
+    phone?: string;
     country?: string;
     state?: string;
     street?: string;
-    number?: ztring;
+    number?: string;
     avatar?: string;
-}
+  }
+  
