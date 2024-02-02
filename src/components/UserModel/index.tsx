@@ -8,6 +8,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { phoneNumber } from '../../utils/validations';
 import { normalizePhoneNumber } from '../../utils/masks';
 import { InputError } from '../InputError';
+import { toast } from 'react-toastify';
+
 import './styles.scss';
 
 interface UserModalProps{
@@ -49,7 +51,7 @@ export function UserModal({ initialValues }: UserModalProps) {
     }
   
     function onError(error: any) {
-    //   toast.error('Confira os campos e tente novamente!');
+      toast.error('Confira os campos e tente novamente!');
     }
   
    
@@ -68,7 +70,7 @@ export function UserModal({ initialValues }: UserModalProps) {
   
     useEffect(() => {
       setValue('phone', normalizePhoneNumber(phoneValue));
-    }, [phoneValue]);
+    }, [phoneValue, setValue]);
   
     return (
       <div className="overlay">
@@ -99,7 +101,7 @@ export function UserModal({ initialValues }: UserModalProps) {
               <div>
                 <label htmlFor="phone">Celular</label>
                 <input
-                  type="text"
+                  type="tel"
                   id="phone"
                   {...register('phone')}
                   placeholder="Ex: (99) 99999-9999"
